@@ -1,0 +1,46 @@
+The "subset" function utilizes the List module's mem function. First, it 
+accepts two lists as inputs and checks if the first list is empty. If so, then 
+it is automatically considered subset of list two, consequently returning true. 
+Otherwise, the function will recursively go through all elements in list one 
+and match them with those in list two. Every call to List.mem  must return true 
+in order for "subset" to be true.
+
+"equal_sets" accepts two lists as well and uses the previously defined "subset"
+function. If list one is a subset of list two and vice versa, then the two are
+known to have the same elements.
+
+"computed_fixed_point" utilizes the an if-then-else statement by checking if
+x and (f x) are equal via eq. If so, then the value x is returned. Otherwise,
+the function will continue recursively but substituting the x input with (f x).
+
+The final function, "filter_reachable", utilizes four other custom built
+functions excluding "computed_fixed_point".
+
+"is_nt" takes in a list and parses it to find all nonterminal values by
+checking the symbol T or N before it. Those that are found are added into a 
+new list.
+
+"is_reachable" takes in a nonterminal value and a list of rules. It checks to
+see if the rules are empty. If not, then it will check to see if the given
+nonterminal matches with any of the nonterminals in each pair within the
+rules. If a match is found, "is_reachable" will call on "is_in" in to check
+if any of the elements in the corresponding tuple is a nonterminal as well,
+continually concatinating them as they are found. If no matches are found to 
+begin with, "is_reachable" will continue to check the nonterminal of every pair 
+in the rules list.
+
+"append" takes a list that should be exclusively comprised of nonterminals. 
+Assuming this to be the case, it applies the "is_reachable" function to each
+and every element, appending all reachables as it runs.
+
+Lastly, "filter" takes in the final list of nonterminals and reachables and 
+compares it with the original set of rules and creates a new list with only 
+matches, thus getting rid of the nonreachables.
+
+"filter_reachable" utilizes the above functions by using "filter" which takes 
+an input of "computed_fixed_point" and the original rules. The function fed 
+into "computed_fixed_points" is what generates the list of reachables, 
+beginning with the given initial nonterminal. "equal_sets" ensures that once
+that nonterminal matches with another one found during recursion, the loop
+will stop. Ultimately, we should end up with a list of only reachables while 
+avoiding infinite loops in which nonterminals reference each other.
